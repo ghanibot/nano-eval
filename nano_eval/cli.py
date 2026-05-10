@@ -13,7 +13,7 @@ from nano_eval.core.runner import EvalRunner
 from nano_eval.report.schema import EvalReport, CaseResult
 
 app = typer.Typer(name="nano-eval", add_completion=False)
-console = Console()
+console = Console(force_terminal=True)
 
 
 @app.command()
