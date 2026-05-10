@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nano-eval"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic>=0.25",
+    "pydantic>=2",
+    "pyyaml",
+    "typer",
+    "rich",
+]
+
+[project.optional-dependencies]
+openai = ["openai>=1.0"]
+dev = ["pytest", "ruff"]
+
+[project.scripts]
+nano-eval = "nano_eval.cli:app"
