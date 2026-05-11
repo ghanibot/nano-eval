@@ -20,7 +20,7 @@
 
 Testing AI outputs is painful. Existing tools (promptfoo, deepeval) require running a server, writing complex configs across multiple files, and assume Linux. There's no easy way to run a quick LLM-as-judge eval without setting up an entire infrastructure.
 
-**nano-eval fixes all of it.**
+**NANO-EVAL FIXES ALL OF IT!!.**
 
 ---
 
