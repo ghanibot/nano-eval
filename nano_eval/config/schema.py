@@ -2,8 +2,11 @@ from pydantic import BaseModel, Field
 from typing import Literal, Union
 
 
+PROVIDERS = Literal["anthropic", "openai", "groq", "gemini", "ollama", "mistral"]
+
+
 class ModelConfig(BaseModel):
-    provider: Literal["anthropic", "openai"] = "anthropic"
+    provider: PROVIDERS = "anthropic"
     model: str = "claude-haiku-4-5-20251001"
     max_tokens: int = 1024
     temperature: float = 0.0
@@ -12,7 +15,7 @@ class ModelConfig(BaseModel):
 
 class JudgeConfig(BaseModel):
     model: str = "claude-haiku-4-5-20251001"
-    provider: Literal["anthropic", "openai"] = "anthropic"
+    provider: PROVIDERS = "anthropic"
 
 
 class EvaluatorConfig(BaseModel):

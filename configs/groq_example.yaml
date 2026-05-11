@@ -1,0 +1,27 @@
+name: "groq-eval"
+
+model:
+  provider: groq
+  model: "llama-3.1-8b-instant"   # or: llama-3.1-70b-versatile, mixtral-8x7b-32768
+  max_tokens: 512
+  temperature: 0.0
+
+judge:
+  provider: groq
+  model: "llama-3.1-8b-instant"
+
+max_concurrency: 5
+
+cases:
+  - id: python-function
+    description: "Model writes valid Python"
+    input: "Write a Python function that adds two numbers"
+    expected: "def "
+    evaluator: contains
+
+  - id: explain-concept
+    description: "Model explains clearly"
+    input: "Explain what an API is in 2 sentences"
+    evaluator: llm-judge
+    min_score: 3
+    criteria: "clarity and accuracy for beginners"

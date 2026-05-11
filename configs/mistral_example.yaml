@@ -1,0 +1,27 @@
+name: "mistral-eval"
+
+model:
+  provider: mistral
+  model: "mistral-small-latest"   # or: mistral-medium-latest, mistral-large-latest
+  max_tokens: 512
+  temperature: 0.0
+
+judge:
+  provider: mistral
+  model: "mistral-small-latest"
+
+max_concurrency: 3
+
+cases:
+  - id: python-function
+    description: "Model writes valid Python"
+    input: "Write a Python function that returns fibonacci sequence"
+    expected: "def "
+    evaluator: contains
+
+  - id: explain-rest
+    description: "Model explains REST clearly"
+    input: "Explain REST API in 2 sentences"
+    evaluator: llm-judge
+    min_score: 3
+    criteria: "accuracy and clarity"

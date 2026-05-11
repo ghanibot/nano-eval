@@ -16,6 +16,10 @@ dependencies = [
 
 [project.optional-dependencies]
 openai = ["openai>=1.0"]
+groq = ["openai>=1.0"]
+gemini = ["google-generativeai>=0.5"]
+mistral = ["openai>=1.0"]
+all = ["openai>=1.0", "google-generativeai>=0.5"]
 dev = ["pytest", "ruff"]
 
 [project.scripts]

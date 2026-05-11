@@ -31,7 +31,8 @@ Testing AI outputs is painful. Existing tools (promptfoo, deepeval) require runn
 | Requires server / Docker to run | **Zero server** — single Python process, runs anywhere |
 | Complex multi-file config | **Single YAML** — all cases, model config, evaluators in one file |
 | Windows support broken | **Windows-first** — tested on PowerShell, no POSIX assumptions |
-| No LLM-as-judge out of the box | **Built-in LLM judge** — claude-haiku scores 1-5, configurable criteria |
+| Locked to one LLM provider | **6 providers** — Anthropic, OpenAI, Groq, Gemini, Ollama (local), Mistral |
+| No LLM-as-judge out of the box | **Built-in LLM judge** — any provider scores 1-5, configurable criteria |
 | Sequential test execution | **Concurrent by default** — `ThreadPoolExecutor`, configurable parallelism |
 | No cost visibility | **Token tracking** — per-case and total token counts in every report |
 | Hard to script / CI | **JSON report output** — `--output report.json`, exit code 1 on failure |
@@ -246,10 +247,36 @@ EvalConfig (YAML)
 
 ## Model Providers
 
-| Provider | Models | Requires |
-|---|---|---|
-| `anthropic` | `claude-haiku-4-5-20251001`, `claude-sonnet-4-6`, `claude-opus-4-7` | `ANTHROPIC_API_KEY` |
-| `openai` | `gpt-4o`, `gpt-4o-mini` | `OPENAI_API_KEY` + `pip install nano-eval[openai]` |
+| Provider | Models | Cost | Requires |
+|---|---|---|---|
+| `anthropic` | `claude-haiku-4-5-20251001`, `claude-sonnet-4-6`, `claude-opus-4-7` | Paid | `ANTHROPIC_API_KEY` |
+| `openai` | `gpt-4o`, `gpt-4o-mini` | Paid | `OPENAI_API_KEY` + `pip install nano-eval[openai]` |
+| `groq` | `llama-3.1-8b-instant`, `llama-3.1-70b-versatile`, `mixtral-8x7b-32768` | Free tier | `GROQ_API_KEY` + `pip install nano-eval[groq]` |
+| `gemini` | `gemini-1.5-flash`, `gemini-1.5-pro`, `gemini-2.0-flash-exp` | Free tier | `GOOGLE_API_KEY` + `pip install nano-eval[gemini]` |
+| `ollama` | `llama3.2`, `mistral`, `phi3`, `gemma2`, `deepseek-r1` | **Free, local** | [Ollama](https://ollama.com) running + `ollama pull <model>` |
+| `mistral` | `mistral-small-latest`, `mistral-large-latest` | Paid | `MISTRAL_API_KEY` + `pip install nano-eval[mistral]` |
+
+### Install by provider
+
+```bash
+pip install nano-eval[groq]     # Groq (llama/mixtral, fast free tier)
+pip install nano-eval[gemini]   # Google Gemini
+pip install nano-eval[mistral]  # Mistral AI
+pip install nano-eval[all]      # All cloud providers
+# Ollama: zero extra deps — just run Ollama locally
+```
+
+### Switch provider in YAML
+
+```yaml
+model:
+  provider: groq                      # change this line
+  model: "llama-3.1-8b-instant"
+
+judge:
+  provider: groq                      # judge can use different provider
+  model: "llama-3.1-70b-versatile"
+```
 
 ---
 

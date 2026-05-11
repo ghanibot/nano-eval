@@ -1,0 +1,26 @@
+name: "gemini-eval"
+
+model:
+  provider: gemini
+  model: "gemini-1.5-flash"   # or: gemini-1.5-pro, gemini-2.0-flash-exp
+  max_tokens: 512
+  temperature: 0.0
+
+judge:
+  provider: gemini
+  model: "gemini-1.5-flash"
+
+max_concurrency: 3
+
+cases:
+  - id: python-function
+    description: "Model writes valid Python"
+    input: "Write a Python function that returns fibonacci sequence"
+    expected: "def "
+    evaluator: contains
+
+  - id: json-output
+    description: "Model outputs valid JSON structure"
+    input: 'Return a JSON object with keys: name, age, city. Use any values.'
+    expected: '"name"'
+    evaluator: contains

@@ -1,0 +1,30 @@
+name: "ollama-eval"
+
+# Ollama runs locally — zero API cost, zero API key required
+# Start Ollama: ollama serve
+# Pull model: ollama pull llama3.2
+
+model:
+  provider: ollama
+  model: "llama3.2"   # or: mistral, phi3, gemma2, deepseek-r1
+  max_tokens: 512
+  temperature: 0.0
+
+judge:
+  provider: ollama
+  model: "llama3.2"
+
+max_concurrency: 1   # local inference is single-threaded
+
+cases:
+  - id: python-function
+    description: "Model writes valid Python"
+    input: "Write a Python function that adds two numbers"
+    expected: "def "
+    evaluator: contains
+
+  - id: simple-math
+    description: "Model answers math correctly"
+    input: "What is 15 + 27? Answer with just the number."
+    expected: "42"
+    evaluator: contains
